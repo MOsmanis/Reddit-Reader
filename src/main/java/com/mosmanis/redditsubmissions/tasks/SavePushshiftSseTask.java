@@ -33,9 +33,7 @@ public class SavePushshiftSseTask implements Runnable
 		try
 		{
 			final HashMap<String, Object> data = new ObjectMapper()
-					.readValue(sse.data(), new TypeReference<HashMap<String, Object>>()
-					{
-					});//TODO do not push
+					.readValue(sse.data(), new TypeReference<HashMap<String, Object>>() {});
 			final String eventType = sse.event();
 			if (eventType == null)
 			{

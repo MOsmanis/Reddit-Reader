@@ -34,9 +34,7 @@ public class ReadPushshiftSseTask implements Runnable
 		final ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
 		final WebClient sseClient = WebClient.create("http://stream.pushshift.io/"); //move to properties
 		final Flux<ServerSentEvent<String>> eventStream = sseClient.get().retrieve()
-				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<String>>()
-				{
-				});//TODO do not push
+				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<String>>() {});
 		eventStream.timeout(Duration.ofSeconds(KEEPALIVE_DURATION))
 				.subscribe(content -> saveOrSkip(taskExecutor, content),
 						error -> LOG.log(Level.WARNING, "Error receiving Pushshift SSE", error),
