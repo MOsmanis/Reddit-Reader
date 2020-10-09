@@ -22,6 +22,7 @@ public class ReadPushshiftSseTask implements Runnable
 {
 	private static final Logger LOG = Logger.getLogger(ReadPushshiftSseTask.class.getName());
 
+	private static final String PUSHSHIFT_URL = "http://stream.pushshift.io/";
 	private static final String KEEPALIVE_EVENT_NAME = "keepalive";
 	private static final long KEEPALIVE_DURATION = 31;
 
@@ -32,7 +33,7 @@ public class ReadPushshiftSseTask implements Runnable
 	public void run()
 	{
 		final ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
-		final WebClient sseClient = WebClient.create("http://stream.pushshift.io/"); //move to properties
+		final WebClient sseClient = WebClient.create(PUSHSHIFT_URL);
 		final Flux<ServerSentEvent<String>> eventStream = sseClient.get().retrieve()
 				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<String>>() {});
 		eventStream.timeout(Duration.ofSeconds(KEEPALIVE_DURATION))
